@@ -1,0 +1,11 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+    restart: always
+    ports:
+     - "33003:3000"
+    environment:
+      PORT: "3000"
+      PUBLICURL: "https://demo.botiumbox.com/twilioivr"

@@ -1,19 +1,21 @@
 const VoiceResponse = require('twilio').twiml.VoiceResponse;
 
+const { publicurl } = require('../../config')
+
 exports.welcome = function welcome() {
   const voiceResponse = new VoiceResponse();
 
   const gather = voiceResponse.gather({
-    action: '/ivr/menu',
+    action: publicurl + '/ivr/menu',
     numDigits: '1',
     method: 'POST',
+    timeout: 20
   });
 
   gather.say(
     'Thanks for calling the E T Phone Home Service. ' +
     'Please press 1 for directions. ' +
     'Press 2 for a list of planets to call.',
-    {loop: 3}
   );
 
   return voiceResponse.toString();
@@ -79,16 +81,17 @@ function listPlanets() {
   const twiml = new VoiceResponse();
 
   const gather = twiml.gather({
-    action: '/ivr/planets',
+    action: publicurl + '/ivr/planets',
     numDigits: '1',
     method: 'POST',
+    timeout: 20
   });
 
   gather.say(
     'To call the planet Broh doe As O G, press 2. To call the planet DuhGo ' +
     'bah, press 3. To call an oober asteroid to your location, press 4. To ' +
     'go back to the main menu, press the star key ',
-    {voice: 'alice', language: 'en-GB', loop: 3}
+    {voice: 'alice', language: 'en-GB'}
   );
 
   return twiml.toString();
@@ -106,7 +109,7 @@ function redirectWelcome() {
     language: 'en-GB',
   });
 
-  twiml.redirect('/ivr/welcome');
+  twiml.redirect(publicurl + '/ivr/welcome');
 
   return twiml.toString();
 }
